@@ -7,22 +7,22 @@ import info.kwarc.teaching.AI.Kalah.Board;
 import info.kwarc.teaching.AI.Kalah.Agents.Agent;
 import scala.Tuple4;
 
-public class AgentHAJANI extends Agent {
+public class AgentPAJANI extends Agent {
 
-	private String name="AgentHAJANI";
+	private String name="AgentPAJANI";
 	private Board board;
 	private boolean playerOne;
 
-	public AgentHAJANI() {}
-	public AgentHAJANI(String name) {
+	public AgentPAJANI() {}
+	public AgentPAJANI(String name) {
 		this.name=name;
 	}
 	
 	@Override
 	public Iterable<String> students() {
 		List<String> studs=new ArrayList();
-		studs.add("Hanna");
-		studs.add("Jan Urf");
+		studs.add("Paula Kaiser");
+		studs.add("Jan Urfei");
 		studs.add("Nicholas Dickel");
 		return studs;
 	}
