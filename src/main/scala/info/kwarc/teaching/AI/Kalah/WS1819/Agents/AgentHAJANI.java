@@ -35,8 +35,19 @@ public class AgentHAJANI extends Agent {
 
 	@Override
 	public int move() {
-		//Iterable<Object> houses = board.getHouses(this);
-		return 2;
+		Iterable<Object> houses = board.getHouses(this);
+		int housecounter=1;
+		int maxvalue=0;
+		int maxindex=0;
+		for(Object house:houses) {
+			if((int)house>maxvalue) {
+				maxvalue=(int)house;
+				maxindex=housecounter;
+			}
+			housecounter++;
+		}
+		
+		return maxindex;
 	}
 
 	@Override
