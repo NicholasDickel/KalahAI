@@ -97,20 +97,20 @@ public class ExternalEvaluatorServer {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		Evaluator eval = ??? //your engine frontend instance implementing Evaluator goes here
-		ExternalEvaluatorServer evalServ = new ExternalEvaluatorServer(2601, eval);
-		while(true) {
-			try {
-				evalServ.listen();
-				evalServ.serveEvalRequests();
-			} catch (IOException e) {
-				e.printStackTrace();
-				try {
-					Thread.sleep(1000);
-				}catch(Exception ee) {
-					
-				}
-			}
-		}
+//		Evaluator eval = ??? //your engine frontend instance implementing Evaluator goes here
+//		ExternalEvaluatorServer evalServ = new ExternalEvaluatorServer(2601, eval);
+//		while(true) {
+//			try {
+//				evalServ.listen();
+//				evalServ.serveEvalRequests();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//				try {
+//					Thread.sleep(1000);
+//				}catch(Exception ee) {
+//					
+//				}
+//			}
+//		}
 	}
 }

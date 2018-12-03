@@ -10,6 +10,6 @@ object Test {
 
     val int = new Fancy.FancyInterface(12)
 
-    new Game(new HumanPlayer("Hans"),new RandomPlayer("Hurtz"),int + Terminal)(12,12).play
+    new Game(new RandomPlayer("Hans"),new RandomPlayer("Hurtz"),int + Terminal)(12,12).play
   }
 }
