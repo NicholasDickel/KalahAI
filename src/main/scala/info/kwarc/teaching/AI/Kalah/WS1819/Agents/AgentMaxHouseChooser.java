@@ -21,7 +21,7 @@ public class AgentMaxHouseChooser extends Agent {
 	@Override
 	public Iterable<String> students() {
 		List<String> studs=new ArrayList();
-		studs.add("Hanna");
+		studs.add("Paula Kaiser");
 		studs.add("Jan Urf");
 		studs.add("Nicholas Dickel");
 		return studs;

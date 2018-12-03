@@ -101,8 +101,8 @@ public class Coordinator {
 					KalahGui.createAndShowGUI();
 					new StateTracker(); //establish connection to the state tracker. Otherwise, the static block would not be run.
 					new Autoplay();
-					EvaluationManager.fromConfig(EvaluationConfiguration.readConfig(new File("eval.yaml")));
-					HouseColoringManager.fromConfiguration(CmapConfiguration.fromFile(new File("cmap.yaml")));
+					EvaluationManager.fromConfig(EvaluationConfiguration.readConfig(new File("KalahGUI/eval.yaml")));
+					HouseColoringManager.fromConfiguration(CmapConfiguration.fromFile(new File("KalahGUI/cmap.yaml")));
 					setActiveMatch(new Match(new GameInfo(6, 6), "South", "North"));
 				}catch(Exception e) {
 					System.err.println("Error while setting up. Shutting down.");
