@@ -92,16 +92,18 @@ public class PAJANIEvaluator implements Evaluator{
          * @return evaluation
          */
         public double compute(game.State gs){
+            //auskommentiert wegen performance
             Double result;
-            if(gs.getResult() == game.State.Result.P1WIN) {
+            /*if(gs.getResult() == game.State.Result.P1WIN) {
                 result = 100.0;
             }else if(gs.getResult() == game.State.Result.P2WIN){
                 result= -100.0;
             }else {
+            */
                 int p1Score = gs.getP1Score();
                 int p2Score = gs.getP2Score();
                 result = (double) p1Score - p2Score;
-            }
+            //}
             return result;
         }
     }
