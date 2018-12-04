@@ -97,7 +97,7 @@ public class ExternalEvaluatorServer {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		Evaluator eval = new DifferenceInSeedsEvaluator(); //your engine frontend instance implementing Evaluator goes here
+		Evaluator eval = new PAJANIEvaluator(); //your engine frontend instance implementing Evaluator goes here
 		ExternalEvaluatorServer evalServ = new ExternalEvaluatorServer(2601, eval);
 		while(true) {
 			try {
