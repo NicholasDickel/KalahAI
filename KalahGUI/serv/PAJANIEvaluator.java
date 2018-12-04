@@ -1,14 +1,20 @@
 import game.StateLogic;
 //do not import game.State, if you import it doesnt know serv.State anymore. use game.State in code instead
 import java.util.*;
+import java.util.stream.Collectors;
+
 
 public class PAJANIEvaluator implements Evaluator{
+    //TODO try different Evaluation functions
+    //change implementation here
+    //save currently used implementation here -> no need to change evaluateFull, evaluateState,getPrincipalVariation
+    private EvaluationImplementation evalImplementation = new differenceInScoreEvaluation();
 
     /**
      * Returns a full state evaluation of the player-to-move for the passed state.
      *
      * @param s The state to evaluate.
-     * @return The state evaluation for this state.
+     * @return The state evaluation for this state. (map from move to evaluation of successor State with move)
      */
     @Override
     public StateEvaluation evaluateFull(State s) {
@@ -29,9 +35,7 @@ public class PAJANIEvaluator implements Evaluator{
         //compute evaluation to each move/succState and save in evalMap
         assert(movesList.size() == succStates.size()):"something went wrong when computing succStates, #moves != #succStates";
         for(int i=0; i < succStates.size();i++){
-            //TODO try different Evaluation functions
-            //change implementation here
-            double e = differenceInScoreEvaluation(succStates.get(i));
+            double e = evalImplementation.compute(gameState);
             evalMap.put(movesList.get(i),e);
         }
         return new StateEvaluation(movesList, evalMap );
@@ -45,7 +49,9 @@ public class PAJANIEvaluator implements Evaluator{
      */
     @Override
     public double evaluateState(State s) {
-        return 0;
+        State.GameInfo gameInfo=s.getGameInfo();
+        game.State gs = new game.State(s.getP1Houses(),s.getP2Houses(),s.getP1Score(),s.getP2Score(),s.isP1ToMove(),gameInfo.getHouses(),gameInfo.getSeeds());
+        return evalImplementation.compute(gs);
     }
 
     /**
@@ -57,25 +63,45 @@ public class PAJANIEvaluator implements Evaluator{
      */
     @Override
     public List<Integer> getPrincipalVariation(State s) {
-        return null;
+        StateEvaluation stateEv = evaluateFull(s);
+        Map<Integer, Double> evalMap = stateEv.getEvaluation();
+        //sort evalMap by value ascending (=min first)
+        List<Integer> sorted = evalMap.entrySet().stream()
+                .sorted(Comparator.comparing(Map.Entry::getValue))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+        // if p1 is to move we need max first -> reverse list
+        if(s.isP1ToMove()){
+            Collections.reverse(sorted);
+        }
+        return sorted;
     }
 
     /**
-     * computes the difference in Seeds in each players stores
-     * @param gs the game.State to evaluate ( successor of state s given to methods inherited from Evaluator)
-     * @return evaluation
+     * parent class for implementations
      */
-    private double differenceInScoreEvaluation(game.State gs){
-        double result;
-        if(gs.getResult() == game.State.Result.P1WIN) {
-            result = 100.0;
-        }else if(gs.getResult() == game.State.Result.P2WIN){
-            result= -100.0;
-        }else {
-            int p1Score = gs.getP1Score();
-            int p2Score = gs.getP2Score();
-            result = p1Score - p2Score;
+    private abstract class EvaluationImplementation{
+        public abstract double compute(game.State gs);
+    }
+
+    private class differenceInScoreEvaluation extends  EvaluationImplementation{
+        /**
+         * computes the difference in Seeds in each players stores
+         * @param gs the game.State to evaluate ( successor of state s given to methods inherited from Evaluator)
+         * @return evaluation
+         */
+        public double compute(game.State gs){
+            Double result;
+            if(gs.getResult() == game.State.Result.P1WIN) {
+                result = 100.0;
+            }else if(gs.getResult() == game.State.Result.P2WIN){
+                result= -100.0;
+            }else {
+                int p1Score = gs.getP1Score();
+                int p2Score = gs.getP2Score();
+                result = (double) p1Score - p2Score;
+            }
+            return result;
         }
-        return result;
     }
 }
