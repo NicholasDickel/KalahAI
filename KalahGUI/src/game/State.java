@@ -52,8 +52,10 @@ public class State {
 		this.p1Score = p1Score;
 		this.p2Score = p2Score;
 		this.p1ToMove = p1ToMove;
-		this.res = Result.get(p1Score, p2Score, gi);
+		//TODO check with tutors
+		//before it was first res=... then gi=... -> null pointer exception
 		this.gi = new GameInfo(houses, seeds);
+		this.res = Result.get(p1Score, p2Score, gi);
 	}
 	
 	public State(int houses, int seeds) {
