@@ -18,6 +18,7 @@ public class PAJANIEvaluator implements Evaluator{
      */
     @Override
     public StateEvaluation evaluateFull(State s) {
+        //TODO parallelisieren
         //convert engine.State to game.State to be able to get the moves and the successor States with class StateLogic
         State.GameInfo gameInfo=s.getGameInfo();
         game.State gameState= new game.State(s.getP1Houses(),s.getP2Houses(),s.getP1Score(),s.getP2Score(),s.isP1ToMove(),gameInfo.getHouses(),gameInfo.getSeeds());

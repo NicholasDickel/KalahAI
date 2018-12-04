@@ -52,7 +52,7 @@ public class EvaluationConfiguration {
 	}
 	
 	public static void main(String[] args) throws JsonParseException, JsonMappingException, IOException {
-		EvaluationConfiguration eval = readConfig(new File("eval.yaml"));
+		EvaluationConfiguration eval = readConfig(new File("KalahGUI/eval.yaml"));
 		System.out.println(eval.getEvaluators().get(0).getName());
 		System.out.println(eval.getSouth());
 	}
