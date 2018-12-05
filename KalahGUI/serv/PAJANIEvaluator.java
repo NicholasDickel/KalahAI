@@ -36,7 +36,7 @@ public class PAJANIEvaluator implements Evaluator{
         //compute evaluation to each move/succState and save in evalMap
         assert(movesList.size() == succStates.size()):"something went wrong when computing succStates, #moves != #succStates";
         for(int i=0; i < succStates.size();i++){
-            double e = evalImplementation.compute(gameState);
+            double e = evalImplementation.compute(succStates.get(i));
             evalMap.put(movesList.get(i),e);
         }
         return new StateEvaluation(movesList, evalMap );

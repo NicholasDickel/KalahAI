@@ -16,7 +16,7 @@ public class AgentPAJANI extends Agent {
 	private boolean playerOne;
 
 	// to shorten the Tuple description elsewhere
-	class State {
+	class AgentState {
 		Tuple4<Iterable<Object>, Iterable<Object>, Object, Object> states;
 	}
 
@@ -40,7 +40,7 @@ public class AgentPAJANI extends Agent {
 	public void init(Board board, boolean playerOne) {
 		this.board = board;
 		this.playerOne = playerOne;
-		State State=new State();
+		AgentState State=new AgentState();
 		State.states=board.getState();
 		// Max houses for each player
 		int numberOfHouses = 0;
@@ -48,12 +48,12 @@ public class AgentPAJANI extends Agent {
 			numberOfHouses++;
 		}
 		maxHouses=numberOfHouses;
-
+		//TODO evaluator server starten
 	}
 
 	@Override
 	public int move() {
-		State Status = new State();
+		AgentState Status = new AgentState();
 		// states ist das komplette Board als (Board Player 1, Board Player 2, House
 		// Player 1, House Player 2)
 		Status.states = board.getState();
@@ -103,7 +103,7 @@ public class AgentPAJANI extends Agent {
 		return name;
 	}
 
-	private int alphabeta(State state, int depth, int alpha, int beta, boolean maximizer, boolean firstCall) {
+	private int alphabeta(AgentState state, int depth, int alpha, int beta, boolean maximizer, boolean firstCall) {
 		if (depth == 0) {
 			return staticEvaluation(state);
 		}
@@ -118,7 +118,7 @@ public class AgentPAJANI extends Agent {
 					continue;
 				}
 				// TODO Somehow get the new board
-				State newstate = state;
+				AgentState newstate = state;
 				// TODO Check if we get another turn --> maximizer still true
 				int evaluation = alphabeta(newstate, depth - 1, alpha, beta, false, false);
 				if (evaluation > maxEval) {
@@ -145,7 +145,7 @@ public class AgentPAJANI extends Agent {
 					continue;
 				}
 				// TODO Somehow get the new board if the current house is picked
-				State newstate = state;
+				AgentState newstate = state;
 				// TODO Check if we get another turn --> maximizer still false
 				int evaluation = alphabeta(newstate, depth - 1, alpha, beta, true, false);
 				if (evaluation < minEval) {
@@ -167,7 +167,7 @@ public class AgentPAJANI extends Agent {
 
 	}
 
-	private int staticEvaluation(State state) {
+	private int staticEvaluation(AgentState state) {
 		// TODO replace with static evaluation
 		Random rand = new Random();
 		// random number from -100 to +100, will be replaced with static evaluation
