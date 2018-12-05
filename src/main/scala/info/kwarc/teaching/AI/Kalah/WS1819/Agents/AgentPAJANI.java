@@ -99,7 +99,7 @@ public class AgentPAJANI extends Agent {
 //				maxindex = i;
 //			}
 //		}
-		int maxindex=alphabeta(Status,5,Integer.MIN_VALUE,Integer.MAX_VALUE,playerOne,true);
+		int maxindex=alphabeta(tmpState,5,Integer.MIN_VALUE,Integer.MAX_VALUE,playerOne,true);
 		return maxindex;
 	}
 
@@ -108,7 +108,7 @@ public class AgentPAJANI extends Agent {
 		return name;
 	}
 
-	private int alphabeta(AgentState state, int depth, int alpha, int beta, boolean maximizer, boolean firstCall) {
+	private int alphabeta(State state, int depth, int alpha, int beta, boolean maximizer, boolean firstCall) {
 		if (depth == 0) {
 			return staticEvaluation(state);
 		}
@@ -117,13 +117,13 @@ public class AgentPAJANI extends Agent {
 		int currentHouse=0;
 		if (maximizer==true) {
 			int maxEval = Integer.MIN_VALUE;
-			for (Object i : state.states._1()) {
+			for (int i : state.getP1Houses()) {
 				currentHouse++;
-				if((int)i==0) {
+				if(i==0) {
 					continue;
 				}
 				// TODO Somehow get the new board
-				AgentState newstate = state;
+				State newstate = game.StateLogic.getSuc(currentHouse-1, state);
 				// TODO Check if we get another turn --> maximizer still true
 				int evaluation = alphabeta(newstate, depth - 1, alpha, beta, false, false);
 				if (evaluation > maxEval) {
@@ -144,13 +144,13 @@ public class AgentPAJANI extends Agent {
 
 		} else {
 			int minEval = Integer.MAX_VALUE;
-			for (Object i : state.states._2()) {
+			for (int i : state.getP2Houses()) {
 				currentHouse++;
-				if((int)i==0) {
+				if(i==0) {
 					continue;
 				}
 				// TODO Somehow get the new board if the current house is picked
-				AgentState newstate = state;
+				State newstate = game.StateLogic.getSuc(currentHouse-1, state);
 				// TODO Check if we get another turn --> maximizer still false
 				int evaluation = alphabeta(newstate, depth - 1, alpha, beta, true, false);
 				if (evaluation < minEval) {
@@ -172,11 +172,8 @@ public class AgentPAJANI extends Agent {
 
 	}
 
-	private int staticEvaluation(AgentState state) {
-		// TODO replace with static evaluation
-		Random rand = new Random();
-		// random number from -100 to +100, will be replaced with static evaluation
-		int i = rand.nextInt(201) - 100;
+	private int staticEvaluation(State state) {
+		int i=state.getP1Score()-state.getP2Score();
 		return i;
 	}
 
