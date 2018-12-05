@@ -11,9 +11,9 @@ import info.kwarc.teaching.AI.Kalah.Board;
 import info.kwarc.teaching.AI.Kalah.Agents.Agent;
 import scala.Tuple4;
 
-public class AgentPAJANI extends Agent {
+public class JaPaNi extends Agent {
 
-	private String name = "AgentPAJANI";
+	private String name = "JaPaNi";
 	private Board board;
 	private int maxHouses;
 	private int initSeeds;
@@ -24,10 +24,10 @@ public class AgentPAJANI extends Agent {
 		Tuple4<Iterable<Object>, Iterable<Object>, Object, Object> states;
 	}
 
-	public AgentPAJANI() {
+	public JaPaNi() {
 	}
 
-	public AgentPAJANI(String name) {
+	public JaPaNi(String name) {
 		this.name = name;
 	}
 
