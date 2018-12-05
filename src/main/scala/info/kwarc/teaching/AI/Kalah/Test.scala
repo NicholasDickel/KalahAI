@@ -8,8 +8,8 @@ import info.kwarc.teaching.AI.Kalah.WS1819.Agents._;
 object Test {
   def main(args: Array[String]): Unit = {
 
-    val int = new Fancy.FancyInterface(12)
+    val int = new Fancy.FancyInterface(24)
 
-    new Game(new AgentPAJANI("Hans"),new RandomPlayer("Hurtz"),Terminal)(12,12).play
+    new Game(new AgentPAJANI("Hans"),new RandomPlayer("Hurtz"),/*int+*/Terminal)(12,12).play
   }
 }
