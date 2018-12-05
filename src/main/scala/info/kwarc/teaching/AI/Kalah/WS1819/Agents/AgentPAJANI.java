@@ -1,9 +1,11 @@
 package info.kwarc.teaching.AI.Kalah.WS1819.Agents;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import game.State;
 import info.kwarc.teaching.AI.Kalah.Board;
 import info.kwarc.teaching.AI.Kalah.Agents.Agent;
 import scala.Tuple4;
@@ -13,6 +15,7 @@ public class AgentPAJANI extends Agent {
 	private String name = "AgentPAJANI";
 	private Board board;
 	private int maxHouses;
+	private int initSeeds;
 	private boolean playerOne;
 
 	// to shorten the Tuple description elsewhere
@@ -43,11 +46,10 @@ public class AgentPAJANI extends Agent {
 		AgentState State=new AgentState();
 		State.states=board.getState();
 		// Max houses for each player
-		int numberOfHouses = 0;
-		for (Object i : State.states._1()) {
-			numberOfHouses++;
-		}
-		maxHouses=numberOfHouses;
+		maxHouses=board.houses();
+		initSeeds=board.initSeeds();
+		
+		
 		//TODO evaluator server starten
 	}
 
@@ -59,28 +61,31 @@ public class AgentPAJANI extends Agent {
 		Status.states = board.getState();
 
 		// bestimmung der generischen Haeuser und der eigenen
-		Iterable<Object> ownHouses = board.getHouses(this);
-		
-		if (playerOne) {
-			Iterable<Object> otherHouses = Status.states._2();
-		} else {
-			Iterable<Object> otherHouses = Status.states._1();
+		Iterable<Object> p1Houses = Status.states._1();
+		Iterable<Object> p2Houses = Status.states._2();
+		Iterator<Object> p1HousesIt = p1Houses.iterator();
+		Iterator<Object> p2HousesIt = p2Houses.iterator();
+		int[] p1HousesArray = new int[maxHouses];
+		int[] p2HousesArray = new int[maxHouses];
+		int i=0;
+		while(p1HousesIt.hasNext()) {
+			p1HousesArray[i]=(int) p1HousesIt.next();
+			p2HousesArray[i]=(int) p2HousesIt.next();
+			i++;
 		}
 
 		// Anzahl der Houses herausfinden, weiss im Moment nicht ob das klueger geht.
-		int numberOfHouses = 0;
-		for (Object i : ownHouses) {
-			numberOfHouses++;
-		}
-
+		State tmpState = new State( p1HousesArray,  p2HousesArray, (int) Status.states._3(), (int) Status.states._4(), playerOne, maxHouses, initSeeds);
+		
+		
 		// utilitie Array anlegen, wo nachher drin stehen soll, wie viel einem ein Zug
 		// von einem Haus bringt.
 		// davon sollte dann das maximum gewaehlt werden.
-		int[] utilities = new int[numberOfHouses];
+		int[] utilities = new int[maxHouses];
 
 		// voruebergehend um das Haus mit den meisten auszuwaehlen
-		for (int i = 0; i < numberOfHouses; i++) {
-			utilities[i] = board.getSeed((playerOne ? 1 : 2), i + 1);
+		for (int j = 0; j < maxHouses; j++) {
+			utilities[j] = board.getSeed((playerOne ? 1 : 2), j + 1);
 		}
 
 		// TODO utilities befuellen mit werten fue jeden moeglichen Zug
@@ -94,7 +99,7 @@ public class AgentPAJANI extends Agent {
 //				maxindex = i;
 //			}
 //		}
-		int maxindex=alphabeta(Status,5,Integer.MIN_VALUE,Integer.MAX_VALUE,true,true);
+		int maxindex=alphabeta(Status,5,Integer.MIN_VALUE,Integer.MAX_VALUE,playerOne,true);
 		return maxindex;
 	}
 
