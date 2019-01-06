@@ -18,6 +18,9 @@ public class JaPaNi extends Agent {
 	private int maxHouses;
 	private int initSeeds;
 	private boolean playerOne;
+	
+
+
 
 	// to shorten the Tuple description elsewhere
 	class AgentState {
@@ -25,9 +28,11 @@ public class JaPaNi extends Agent {
 	}
 
 	public JaPaNi() {
+		
 	}
 
 	public JaPaNi(String name) {
+		
 		this.name = name;
 	}
 
@@ -99,15 +104,20 @@ public class JaPaNi extends Agent {
 //				maxindex = i;
 //			}
 //		}
-		int maxindex = alphabeta(tmpState, 6, Integer.MIN_VALUE, Integer.MAX_VALUE, playerOne, true);
-		System.out.println(maxindex);
-		return maxindex;
+		int maxindex;
+		int depth=1;
+		while(true) {
+			maxindex = alphabeta(tmpState, depth, Integer.MIN_VALUE, Integer.MAX_VALUE, playerOne, true);
+			timeoutMove_$eq(maxindex);
+			depth++;
+		}
 	}
 
 	@Override
 	public String name() {
 		return name;
 	}
+	
 
 	private int alphabeta(State state, int depth, int alpha, int beta, boolean maximizer, boolean firstCall) {
 		if (depth == 0) {
